@@ -66,10 +66,12 @@ class ExpenseProvider extends ChangeNotifier {
 
   void addTransaction(TransactionModel transaction) {
     transactions.add(transaction);
+    print("Add transaction id ${transaction.id}");
     notifyListeners();
   }
 
   void updateTransaction(TransactionModel transaction) {
+    print("Update transaction id ${transaction.id}");
     int index = transactions.indexWhere((t) => t.id == transaction.id);
     if (index != -1) {
       transactions[index] = transaction;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class CategoryIcon {
+class CategoryIcon {
   static IconData getCategoryIcon(String category) {
     switch (category.toLowerCase()) {
       case 'salary':

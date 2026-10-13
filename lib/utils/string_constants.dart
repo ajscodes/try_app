@@ -15,13 +15,13 @@ abstract class HomeScreenConstants {
   static const String homeScreenViewAllTransaction = 'View All';
   static const String homeScreenNoTransaction = 'No Transactions';
   static const String homeScreenFilterAll = 'All';
+  static const String homeScreenFilterIncome = 'Income';
+  static const String homeScreenFilterExpense = 'Expense';
 }
 
 abstract class AddTransactionConstants {
   static const String addTransactionAppBarTitle = 'Add Transactions';
   static const String addTransactionAppBarTitleEditMode = 'Edit Transactions';
-  static const String addTransactionCardLabel1 = 'Income';
-  static const String addTransactionCardLabel2 = 'Expense';
   static const String addTransactionTitle = 'Title';
   static const String titleRequired = 'Title is required';
   static const String addTransactionTitleHint = 'Enter title';
@@ -48,6 +48,7 @@ abstract class AddTransactionConstants {
   static const String titleCharactersRequired = 'Title must contain characters';
   static const String titleMaxLength = 'Title must not exceed 15 characters';
   static const String futureDateNotAllowed = 'Future date cannot be selected';
+  static const String titleMinLength = 'Title must contain at least 3 character';
 }
 
 abstract class SettingConstants {
@@ -76,7 +77,7 @@ abstract class SettingConstants {
 
 abstract class TransactionDetailConstants {
   static const String transactionDetailAppBarTitle = 'Transaction Details';
-  static const String transactionDetailDateFormate = 'MMM dd, yyyy • hh:mm a';
+  static const String transactionDetailDateFormate = 'MMM dd, yyyy';
   static const String transactionDetailTransactionInformation = 'Transaction Information';
   static const String transactionDetailType = 'Type';
   static const String transactionDetailAction = 'Action';
@@ -96,7 +97,7 @@ abstract class ReportConstants {
 }
 
 abstract class AlertDialogue {
-  static const String
-  delete = 'Delete';
+  static const String delete = 'Delete';
   static const String cancel = 'Cancel';
+  static const String deleteTransaction = 'Deleted Successfully';
 }

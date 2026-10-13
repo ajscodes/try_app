@@ -114,24 +114,27 @@ class SettingScreen extends StatelessWidget {
                             SizedBox(
                               width: double.infinity,
                               child: OutlinedButton.icon(
-                                onPressed: () => _showClearAllDialog(context),
+                                onPressed: provider.transactions.isEmpty
+                                    ? null
+                                    : () => _showClearAllDialog(context),
                                 icon: Icon(
                                   Icons.delete_outline,
-                                  color: ColorConstants
+                                  color: provider.transactions.isEmpty ? ColorConstants.greyDisable    : ColorConstants
                                       .settingScreenClearAllButton,
                                 ),
                                 label: Text(
                                   SettingConstants
                                       .settingScreenClearTransaction,
                                   style: TextStyle(
-                                    color: ColorConstants
+                                    color: provider.transactions.isEmpty ? ColorConstants.greyDisable : ColorConstants
                                         .settingScreenClearAllButton,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 style: OutlinedButton.styleFrom(
+                                  disabledBackgroundColor: Colors.grey.shade200,
                                   side: BorderSide(
-                                    color: ColorConstants
+                                    color: provider.transactions.isEmpty ? ColorConstants.greyDisable : ColorConstants
                                         .settingScreenClearAllButtonBorder,
                                   ),
                                   shape: RoundedRectangleBorder(
@@ -247,13 +250,15 @@ class SettingScreen extends StatelessWidget {
       context: context,
       builder: (ctx) => CustomAlertDialog(
         title: SettingConstants.settingScreenClearTransaction,
-        content:
-            SettingConstants.settingScreenClearTransactionWarningSubText,
+        content: SettingConstants.settingScreenClearTransactionWarningSubText,
         onConfirm: () {
           Provider.of<ExpenseProvider>(
             context,
             listen: false,
           ).clearAllTransaction();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(AlertDialogue.deleteTransaction)),
+          );
         },
       ),
     );

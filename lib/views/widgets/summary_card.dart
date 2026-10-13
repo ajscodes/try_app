@@ -46,6 +46,7 @@ class SummaryCard extends StatelessWidget {
           Text(
             '\$ ${data.price.toStringAsFixed(2)}',
             style: TextStyle(
+              overflow: TextOverflow.ellipsis,
               color: data.iconColor,
               fontWeight: FontWeight.bold,
               fontSize: 16,

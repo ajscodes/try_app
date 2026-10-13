@@ -45,6 +45,7 @@ abstract class ColorConstants {
   static final Color settingScreenClearAllButtonBorder = Colors.red.shade200;
   static final Color settingScreenClearAllWarning = Colors.red.shade50;
   static final Color settingScreenClearAllSubText = Colors.red.shade800;
+  static final Color greyDisable = Colors.grey.shade500;
 
 
   //Category

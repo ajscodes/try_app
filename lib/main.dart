@@ -3,6 +3,7 @@ import 'package:expense_tracker_app/views/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'controllers/add_transaction_provider.dart';
 import 'controllers/expense_provider.dart';
 
 void main() {
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ExpenseProvider()),
+        ChangeNotifierProvider(create: (context) => AddTransactionProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

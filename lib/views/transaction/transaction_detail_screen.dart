@@ -16,21 +16,26 @@ class TransactionDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prov = Provider.of<ExpenseProvider>(context, listen: false);
-
-    final TransactionModel transaction = prov.transactions.firstWhere((t) => t.id == transactionID);
-
-    final isIncome = transaction.transactionType == TransactionType.income;
-    final amountColor = isIncome
-        ? ColorConstants.incomeColor
-        : ColorConstants.expenseColor;
-    final prefix = isIncome ? '+' : '-';
-
-    final categoryColor = ColorConstants.getCategoryColor(transaction.category);
-    final categoryIcon = CategoryIcon.getCategoryIcon(transaction.category);
-
     return Consumer<ExpenseProvider>(
+
       builder: (context, provider, child) {
+        final TransactionModel? transaction = provider.transactions.firstWhereOrNull((t) => t.id == transactionID);
+
+        final isIncome = transaction?.transactionType == TransactionType.income;
+        final amountColor = isIncome
+            ? ColorConstants.incomeColor
+            : ColorConstants.expenseColor;
+        final prefix = isIncome ? '+' : '-';
+
+        if (transaction == null) {
+          return const Scaffold(
+            body: SizedBox(),
+          );
+        }
+
+        final categoryColor = ColorConstants.getCategoryColor(transaction.category);
+        final categoryIcon = CategoryIcon.getCategoryIcon(transaction.category);
+
         return Scaffold(
           backgroundColor: ColorConstants.surfaceColor,
           appBar: AppBar(
@@ -93,7 +98,7 @@ class TransactionDetailScreen extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.only(
                                 top: 40,
-                                bottom: 24,
+                                bottom: 20,
                                 left: 16,
                                 right: 16,
                               ),
@@ -101,10 +106,8 @@ class TransactionDetailScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                     isIncome
-                                        ? AddTransactionConstants
-                                              .addTransactionCardLabel1
-                                        : AddTransactionConstants
-                                              .addTransactionCardLabel2,
+                                        ? HomeScreenConstants.homeScreenFilterIncome
+                                        : HomeScreenConstants.homeScreenFilterExpense,
                                     style: TextStyle(
                                       color: amountColor,
                                       fontWeight: FontWeight.bold,
@@ -122,7 +125,7 @@ class TransactionDetailScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    '$prefix\$${transaction.amount.toStringAsFixed(2)}',
+                                    '$prefix\$${transaction.amount.toStringAsFixed(4)}',
                                     style: TextStyle(
                                       fontSize: 26,
                                       fontWeight: FontWeight.bold,
@@ -146,7 +149,7 @@ class TransactionDetailScreen extends StatelessWidget {
                                           Icons.calendar_today_outlined,
                                           size: 14,
                                           color:
-                                              ColorConstants.onSecondaryColor,
+                                          ColorConstants.onSecondaryColor,
                                         ),
                                         const SizedBox(width: 8),
                                         Text(
@@ -156,7 +159,7 @@ class TransactionDetailScreen extends StatelessWidget {
                                           ).format(transaction.date),
                                           style: TextStyle(
                                             color:
-                                                ColorConstants.onSecondaryColor,
+                                            ColorConstants.onSecondaryColor,
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -231,9 +234,8 @@ class TransactionDetailScreen extends StatelessWidget {
                           Colors.purple,
                           TransactionDetailConstants.transactionDetailType,
                           isIncome
-                              ? AddTransactionConstants.addTransactionCardLabel1
-                              : AddTransactionConstants
-                                    .addTransactionCardLabel2,
+                              ? HomeScreenConstants.homeScreenFilterIncome
+                              : HomeScreenConstants.homeScreenFilterExpense,
                           amountColor,
                         ),
                         const Divider(height: 1),
@@ -328,7 +330,7 @@ class TransactionDetailScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             backgroundColor:
-                                ColorConstants.expenseLabelIconBackGround,
+                            ColorConstants.expenseLabelIconBackGround,
                           ),
                         ),
                       ),
@@ -344,12 +346,12 @@ class TransactionDetailScreen extends StatelessWidget {
   }
 
   Widget _buildInfoRow(
-    IconData icon,
-    Color iconBgColor,
-    String label,
-    String value, [
-    Color? valueColor,
-  ]) {
+      IconData icon,
+      Color iconBgColor,
+      String label,
+      String value, [
+        Color? valueColor,
+      ]) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -395,12 +397,21 @@ class TransactionDetailScreen extends StatelessWidget {
       builder: (ctx) => CustomAlertDialog(
         title: TransactionDetailConstants.transactionDetailDelete,
         content:
-            TransactionDetailConstants.transactionDetailDeleteTransactionContent,
+        TransactionDetailConstants.transactionDetailDeleteTransactionContent,
         onConfirm: () {
+          Navigator.pop(ctx);
           expenseProvider.deleteTransaction(transactionID);
-          Navigator.pop(context);
         },
       ),
     );
+  }
+}
+
+extension on List<TransactionModel> {
+  TransactionModel? firstWhereOrNull(bool Function(TransactionModel element) test) {
+    for (var element in this) {
+      if (test(element)) return element;
+    }
+    return null;
   }
 }
